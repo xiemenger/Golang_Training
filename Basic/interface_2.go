@@ -51,4 +51,35 @@ func main() {
 
 	i = "abc"
 	fmt.Println("i = ", i) // i =  abc
+
+	slice := make([]interface{}, 3)
+	slice[0] = 1
+	slice[1] = "hello"
+	slice[2] = Student{"Qiqi", 19}
+
+	for i, v := range slice {
+		if _, ok := v.(int); ok == true {
+			fmt.Printf("x[%d] is int\n", i)
+		} else if _, ok := v.(string); ok == true {
+			fmt.Printf("x[%d] is string\n", i)
+		} else if _, ok := v.(Student); ok == true {
+			fmt.Printf("x[%d] is student\n", i)
+		}
+	}
+	// x[0] is int
+	// x[1] is string
+	// x[2] is student
+
+	//用switch
+	for i, v := range slice {
+		switch typeValue := v.(type) {
+		case int:
+			fmt.Printf("x[%d] is int\n", i)
+		case string:
+			fmt.Printf("x[%d] is string\n", i)
+		case Student:
+			fmt.Printf("x[%d] is student, studnet name is %s\n", i, typeValue.name)
+		}
+	}
+
 }
