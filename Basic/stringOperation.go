@@ -46,6 +46,6 @@ func main() {
 
 	// 整形转字符串, 常用
 	str = strconv.Itoa(6666)
-	fmt.Printf("%T\n", str)
+	fmt.Printf("%T\n", str) // string
 
 }
