@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -44,7 +46,7 @@ func WriteFile(path string) {
 
 func ReadFile(path string) {
 	// 打开文件
-	file, err := os.Create(path)
+	file, err := os.Open(path)
 	if err != nil {
 		fmt.Println("err = ", err)
 		return
@@ -55,8 +57,37 @@ func ReadFile(path string) {
 
 	buf := make([]byte, 1024*2)
 	n, err := f.Read(buf)
+	if err != nil && err != io.EOF { //文件出错, 同时没有到file end
+		fmt.Println("err = ", err)
+		return
+	}
+}
+
+//每次读取一行
+func ReadFileLine(path string) {
+	// 打开文件
+	file, err := os.Open(path)
 	if err != nil {
 		fmt.Println("err = ", err)
 		return
 	}
+
+	// 关闭文件
+	defer file.close()
+
+	//新建一个缓冲区, 把内容先放在缓冲区
+	r := bufio.NewReader(file)
+
+	for {
+		//遇到'\n'结束读取, 但\n 也读取进去了
+		buf, err := r.ReadBytes('\n')
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			fmt.Println("err = ", err)
+		}
+		fmt.Printf("buf = %s", string(buf))
+	}
+
 }
