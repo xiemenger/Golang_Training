@@ -30,6 +30,7 @@ func WriteFile(path string) {
 	}
 	//使用完毕, 需要关闭文件
 	defer file.close()
+
 	for i := 0; i < 10; i++ {
 		// 把"i = 1\n" 存储在buf中
 		buf := fmt.Sprintf("i = %d\n", i)
@@ -38,5 +39,24 @@ func WriteFile(path string) {
 			fmt.Println("err = ", err)
 			return
 		}
+	}
+}
+
+func ReadFile(path string) {
+	// 打开文件
+	file, err := os.Create(path)
+	if err != nil {
+		fmt.Println("err = ", err)
+		return
+	}
+
+	// 关闭文件
+	defer file.close()
+
+	buf := make([]byte, 1024*2)
+	n, err := f.Read(buf)
+	if err != nil {
+		fmt.Println("err = ", err)
+		return
 	}
 }
